@@ -33,15 +33,15 @@ jobs:
         env:
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         with:
           python-version-file: .github/python-version.txt
       - if: matrix.platform == 'windows'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: release/installbuilder/setup
           key: installbuilder
@@ -51,7 +51,7 @@ jobs:
       - if: matrix.platform == 'macos' && github.repository == 'mitmproxy/mitmproxy'
             && (startsWith(github.ref, 'refs/heads/') || startsWith(github.ref, 'refs/tags/'))
         id: keychain
-        uses: apple-actions/import-codesign-certs@5565bb656f60c98c8fc515f3444dd8db73545dc2
+        uses: apple-actions/import-codesign-certs@d71c39e58688782b20e5804719ce290a37b64e79
         with:
           keychain: ${{ runner.temp }}/temp
           p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
@@ -76,7 +76,7 @@ jobs:
             (github.ref == 'refs/heads/citest' || startsWith(github.ref, 'refs/tags/'))
         run: python -u release/build.py --dirty installbuilder-installer msix-installer
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           # artifacts must have different names, see https://github.com/actions/upload-artifact/issues/24
           name: binaries.${{ matrix.platform }}
