@@ -13,9 +13,9 @@ jobs:
   autofix:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: install-pinned/ruff@8876fcad1732d3dc660068908bbf5cdeeaa9d264
+      - uses: install-pinned/ruff@1c3c40a7d643eede9098ee34200cf5b6ead45fe2
       - run: ruff --fix-only .
       - run: ruff format .
 
@@ -27,4 +27,4 @@ jobs:
 
       - uses: mhils/add-pr-ref-in-changelog@main
 
-      - uses: autofix-ci/action@d3e591514b99d0fca6779455ff8338516663f7cc
+      - uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a
